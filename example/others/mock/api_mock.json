@@ -1,0 +1,212 @@
+{
+  "uuid": "e5cfab75-2ab4-4b86-84fc-58808054b71c",
+  "lastMigration": 33,
+  "name": "Api mock",
+  "endpointPrefix": "api",
+  "latency": 0,
+  "port": 8080,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "e76d4009-7049-4363-a02a-f2601c9fe49c",
+      "type": "http",
+      "documentation": "Signup a user",
+      "method": "post",
+      "endpoint": "signup",
+      "responses": [
+        {
+          "uuid": "c45a258d-2631-4327-923d-c157549cc093",
+          "body": "{\n  \"data\": {\n    \"id\": 1,\n    \"username\": \"{{body 'username'}}\",\n    \"email\": \"{{body 'email'}}\",\n    \"cellphone\": \"{{body 'cellphone'}}\"\n  },\n  \"errors\": null\n}",
+          "latency": 2000,
+          "statusCode": 200,
+          "label": "Success",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "username",
+              "value": "",
+              "invert": true,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "",
+              "invert": true,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "cellphone",
+              "value": "",
+              "invert": true,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "password",
+              "value": "",
+              "invert": true,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "6fbda404-c88b-4c4f-847b-00bc11b415ae",
+          "body": "{\n  \"data\": null,\n  \"errors\": [\n    {\n      \"code\": \"FKERR-1\",\n      \"message\": \"Email already in use.\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 409,
+          "label": "Email already in use",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "email",
+              "value": "fallkey@hotmail.com",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        },
+        {
+          "uuid": "b7b8846d-c2aa-44ea-bea4-8c41b443eb27",
+          "body": "{\n  \"data\": null,\n  \"errors\": [\n    {\n      \"code\": \"FKERR-2\",\n      \"message\": \"Username already in use.\"\n    }\n  ]\n}",
+          "latency": 0,
+          "statusCode": 409,
+          "label": "Username already in use",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "username",
+              "value": "fallkey",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    },
+    {
+      "uuid": "0aa6610e-d677-4d0e-9a20-8fcea1a01c3b",
+      "type": "http",
+      "documentation": "Get a user data from the id",
+      "method": "get",
+      "endpoint": "user/:id",
+      "responses": [
+        {
+          "uuid": "3d689c08-eb67-4ee1-bae0-441613324a16",
+          "body": "{\n  \"data\": {\n    \"id\": \"1\",\n    \"username\": \"caiochaves\",\n    \"email\": \"caio@gmail.com\",\n    \"cellphone\": \"17999997979\"\n  },\n  \"errors\": null\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null,
+      "streamingMode": null,
+      "streamingInterval": 0
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "e76d4009-7049-4363-a02a-f2601c9fe49c"
+    },
+    {
+      "type": "route",
+      "uuid": "0aa6610e-d677-4d0e-9a20-8fcea1a01c3b"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": [],
+  "callbacks": []
+}

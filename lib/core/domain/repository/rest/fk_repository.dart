@@ -3,17 +3,8 @@ import 'package:flutter/material.dart';
 
 abstract class FkRepository<Entity extends FkEntity,
     EntityParser extends FkEntityParser<Entity>> {
-  const FkRepository({
-    required this.httpClient,
-    required this.parser,
-  });
-
-  @protected
-  final FkHttpClient httpClient;
+  const FkRepository({required this.parser});
 
   @protected
   final EntityParser parser;
-
-  @protected
-  String endpoint();
 }

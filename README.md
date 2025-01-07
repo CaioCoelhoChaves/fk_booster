@@ -1,6 +1,5 @@
 # fk_booster
-This is a project with boilerplate code that provide features to boost the development making easier, faster and standardized. To achieve this the core classes provided by the package direct the development to adopt an architecture inspired by clean and Flutter documentation.
-
+ 
 ## Why use FkBooster
 As you expect not to rewrite the same standard code in every project that you develop you can use this package, as it will provide a scalable and simple architecture to follow.
 

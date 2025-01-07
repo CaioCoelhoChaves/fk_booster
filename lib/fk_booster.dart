@@ -3,10 +3,12 @@ export 'package:go_router/go_router.dart';
 export 'package:signals/signals_flutter.dart';
 
 export 'core/data/entity_parser/fk_entity_parser.dart';
+export 'core/data/repository/rest/fk_rest_repository.dart';
+export 'core/data/repository/rest/mixin/save_rest_mixin.dart';
 export 'core/data/typedefs.dart';
 export 'core/domain/entity/fk_entity.dart';
-export 'core/domain/repository/fk_repository.dart';
-export 'core/domain/repository/mixins/save_mixin.dart';
+export 'core/domain/repository/rest/fk_repository.dart';
+export 'core/domain/repository/rest/mixins/save_mixin.dart';
 export 'core/ui/fk_command.dart';
 export 'core/ui/fk_view.dart';
 export 'core/ui/fk_view_model.dart';

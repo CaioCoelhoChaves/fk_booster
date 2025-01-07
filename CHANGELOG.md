@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - FkEntityParser
     - FkRepository
       - SaveMixin
+    - FkRestRepository
+      - SaveRestMixin
     - FkCommand
     - FkView
     - FkViewModel

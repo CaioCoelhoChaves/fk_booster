@@ -1,13 +1,13 @@
 import 'package:example/features/_screens/register/register_state.dart';
-import 'package:example/features/user_registration/data/user_registration_repository.dart';
+import 'package:example/features/user_registration/data/user_rest_registration_repository.dart';
 import 'package:example/features/user_registration/domain/user_registration.dart';
 import 'package:fk_booster/fk_booster.dart';
 import 'package:flutter/cupertino.dart';
 
 class RegisterViewModel extends FkViewModel<RegisterState> {
   RegisterViewModel(this._repository) : super(const RegisterState());
-  final UserRegistrationRepository _repository;
 
+  final UserRegistrationRestRepository _repository;
   final registerFormKey = GlobalKey<FormState>();
 
   UserRegistration get registration => value.registration;

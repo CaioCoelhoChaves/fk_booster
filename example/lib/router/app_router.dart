@@ -7,8 +7,8 @@ import 'package:fk_booster/fk_booster.dart';
 final GoRouter router = GoRouter(
   initialLocation: Routes.register,
   routes: [
-    FkRoute<RegisterViewModel, RegisterScreen>(
-      injection: RegisterScreenInjection(),
+    FkRoute<RegisterViewModel, RegisterScreen, FkEmpty>(
+      injection: const RegisterScreenInjection(),
       path: Routes.register,
       pageBuilder: (context, routeState, viewModel) {
         return RegisterScreen(viewModel: viewModel);

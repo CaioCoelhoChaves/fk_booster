@@ -4,7 +4,7 @@ import 'package:fk_booster/fk_booster.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  InitialInjection()(GetIt.I);
+  const InitialInjection()(GetIt.I);
   runApp(const App());
 }
 

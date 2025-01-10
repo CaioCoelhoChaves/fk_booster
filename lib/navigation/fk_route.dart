@@ -24,6 +24,12 @@ class FkRoute<ViewModel extends FkViewModel, Page extends FkView<ViewModel>,
     required FkRouterPageBuilder<ViewModel, Page> pageBuilder,
     required super.path,
     ExitCallback? onExit,
+    Widget Function(
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child,
+    )? customTransitionBuilder,
     super.name,
     super.parentNavigatorKey,
     super.redirect,
@@ -39,12 +45,14 @@ class FkRoute<ViewModel extends FkViewModel, Page extends FkView<ViewModel>,
                 state,
                 GetIt.I.get<ViewModel>(),
               ),
-              transitionsBuilder: (_, animation, __, child) {
-                return FadeTransition(
-                  opacity: CurveTween(curve: Curves.easeIn).animate(animation),
-                  child: child,
-                );
-              },
+              transitionsBuilder: customTransitionBuilder ??
+                  (_, animation, __, child) {
+                    return FadeTransition(
+                      opacity:
+                          CurveTween(curve: Curves.easeIn).animate(animation),
+                      child: child,
+                    );
+                  },
             );
           },
           onExit: (BuildContext context, GoRouterState state) async {

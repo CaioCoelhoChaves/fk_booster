@@ -16,8 +16,8 @@ mixin FkSaveRestApi<
   Future<ReturnType> save(Entity entity) async {
     final response = await httpClient.post(
       saveEndpoint(),
-      data: saveToMap()(entity),
+      data: saveToMap(entity),
     );
-    return saveFromMap()(response.data as Map<String, dynamic>);
+    return saveFromMap(response.data as Map<String, dynamic>);
   }
 }

@@ -19,10 +19,10 @@ class SaveRestRepository
   String endpoint() => '/api/mock';
 
   @override
-  MockEntity Function(FkJsonMap) saveFromMap() => (_) => returnedMockEntity;
+  MockEntity saveFromMap(_) => returnedMockEntity;
 
   @override
-  FkJsonMap Function(MockEntity p1) saveToMap() => (_) => {};
+  FkJsonMap saveToMap(_) => {};
 }
 
 void main() {
@@ -48,7 +48,7 @@ void main() {
         when(
           () => httpClient.post(
             repository.endpoint(),
-            data: repository.saveToMap()(entityToSave),
+            data: repository.saveToMap(entityToSave),
           ),
         ).thenAnswer(
           (_) => Future.value(
@@ -60,7 +60,7 @@ void main() {
         verify(
           () => httpClient.post(
             repository.endpoint(),
-            data: repository.saveToMap()(entityToSave),
+            data: repository.saveToMap(entityToSave),
           ),
         ).called(1);
         expect(returnedEntity, returnedMockEntity);

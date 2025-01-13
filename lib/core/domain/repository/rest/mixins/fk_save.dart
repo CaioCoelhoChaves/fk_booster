@@ -6,9 +6,9 @@ import 'package:flutter/foundation.dart';
 abstract mixin class FkSave<Entity extends FkEntity,
     EntityParser extends FkEntityParser<Entity>, ReturnType extends Object> {
   @protected
-  FkJsonMap Function(Entity) saveToMap();
+  FkJsonMap saveToMap(Entity entity);
 
   @protected
-  ReturnType Function(FkJsonMap) saveFromMap();
+  ReturnType saveFromMap(FkJsonMap map);
   Future<ReturnType> save(Entity entity);
 }

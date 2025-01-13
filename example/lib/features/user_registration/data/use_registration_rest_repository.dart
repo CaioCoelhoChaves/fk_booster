@@ -24,9 +24,9 @@ class UserRegistrationRestRepository
 
   @protected
   @override
-  User Function(FkJsonMap) saveFromMap() => userParser.fromMap;
+  User saveFromMap(FkJsonMap map) => userParser.fromMap(map);
 
   @protected
   @override
-  FkJsonMap Function(UserRegistration) saveToMap() => parser.toMap;
+  FkJsonMap saveToMap(UserRegistration user) => parser.toMap(user);
 }

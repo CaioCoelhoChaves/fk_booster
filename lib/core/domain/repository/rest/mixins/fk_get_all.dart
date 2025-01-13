@@ -6,7 +6,10 @@ import 'package:flutter/foundation.dart';
 abstract mixin class FkGetAll<Entity extends FkEntity,
     EntityParser extends FkEntityParser<Entity>> {
   @protected
-  List<Entity> Function(List<FkJsonMap>) getAllFromMap();
+  List<Entity> Function(
+    FkListMap,
+    FkEntityListParser<Entity> fromMap,
+  ) getAllFromMap();
 
   Future<List<Entity>> getAll();
 }

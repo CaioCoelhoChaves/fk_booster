@@ -1,4 +1,3 @@
-import 'package:fk_booster/core/data/repository/rest_api/mixin/fk_save_rest_api.dart';
 import 'package:fk_booster/fk_booster.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

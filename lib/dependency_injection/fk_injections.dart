@@ -7,5 +7,5 @@ abstract class FkInjection<T extends FkEntity> {
   void call(GetIt i);
 
   @protected
-  T extra() => GetIt.I.get<T>(instanceName: scopeName);
+  T extra() => GetIt.I.get(instanceName: scopeName);
 }

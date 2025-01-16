@@ -10,14 +10,14 @@ mixin FkRestCreate<
         ReturnType extends Object> on FkRestApiRepository<Entity, EntityParser>
     implements FkCreate<Entity, EntityParser, ReturnType> {
   @protected
-  String saveEndpoint() => endpoint();
+  String createEndpoint() => endpoint();
 
   @override
-  Future<ReturnType> save(Entity entity) async {
+  Future<ReturnType> create(Entity entity) async {
     final response = await httpClient.post(
-      saveEndpoint(),
-      data: saveToMap(entity),
+      createEndpoint(),
+      data: createToMap(entity),
     );
-    return saveFromMap(response.data as Map<String, dynamic>);
+    return createFromMap(response.data as Map<String, dynamic>);
   }
 }

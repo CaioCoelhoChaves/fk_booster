@@ -19,10 +19,10 @@ class SaveRestRepository
   String endpoint() => '/api/mock';
 
   @override
-  MockEntity saveFromMap(_) => returnedMockEntity;
+  MockEntity createFromMap(_) => returnedMockEntity;
 
   @override
-  FkJsonMap saveToMap(_) => {};
+  FkJsonMap createToMap(_) => {};
 }
 
 void main() {
@@ -48,19 +48,19 @@ void main() {
         when(
           () => httpClient.post(
             repository.endpoint(),
-            data: repository.saveToMap(entityToSave),
+            data: repository.createToMap(entityToSave),
           ),
         ).thenAnswer(
           (_) => Future.value(
             const FkHttpResponse(data: <String, dynamic>{}, statusCode: 200),
           ),
         );
-        final returnedEntity = await repository.save(entityToSave);
+        final returnedEntity = await repository.create(entityToSave);
         // Then
         verify(
           () => httpClient.post(
             repository.endpoint(),
-            data: repository.saveToMap(entityToSave),
+            data: repository.createToMap(entityToSave),
           ),
         ).called(1);
         expect(returnedEntity, returnedMockEntity);

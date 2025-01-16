@@ -17,7 +17,7 @@ class RegisterViewModel extends FkViewModel<RegisterState> {
 
   late final FkCommand register = FkCommand(() async {
     if (registerFormKey.currentState!.validate()) {
-      final user = await _repository.save(value.registration);
+      final user = await _repository.create(value.registration);
       debugPrint(user.toString());
     }
   });

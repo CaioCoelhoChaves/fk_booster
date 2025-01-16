@@ -3,12 +3,12 @@ import 'package:fk_booster/core/data/typedefs.dart';
 import 'package:fk_booster/core/domain/entity/fk_entity.dart';
 import 'package:flutter/foundation.dart';
 
-abstract mixin class FkSave<Entity extends FkEntity,
-    EntityParser extends FkEntityParser<Entity>, ReturnType extends Object> {
+abstract mixin class FkUpdate<Entity extends FkEntity,
+    EntityParser extends FkEntityParser<Entity>, ReturnType> {
   @protected
-  FkJsonMap saveToMap(Entity entity);
+  FkJsonMap updateToMap(Entity entity);
 
   @protected
-  ReturnType saveFromMap(FkJsonMap map);
-  Future<ReturnType> save(Entity entity);
+  ReturnType updateFromMap(FkJsonMap map);
+  Future<ReturnType> update(Entity entity);
 }

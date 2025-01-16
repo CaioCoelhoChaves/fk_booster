@@ -12,9 +12,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - FkEntity
     - FkEntityParser
     - FkRepository
-      - SaveMixin
+      - Mixins:
+        - FkDelete
+        - FkGetAll
+        - FkMultipleDelete
+        - FkCreate
+        - FkUpdate
     - FkRestRepository
-      - SaveRestMixin
+      - Mixins:
+        - FkRestCreate
     - FkCommand
     - FkView
     - FkViewModel

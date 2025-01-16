@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 
 class UserRegistrationRestRepository
     extends FkRestApiRepository<UserRegistration, UserRegistrationParser>
-    with FkSaveRestApi<UserRegistration, UserRegistrationParser, User>
+    with FkRestCreate<UserRegistration, UserRegistrationParser, User>
     implements UserRegistrationRepository {
   UserRegistrationRestRepository({
     required super.httpClient,

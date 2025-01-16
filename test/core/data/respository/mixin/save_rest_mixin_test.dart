@@ -12,7 +12,7 @@ MockEntity returnedMockEntity = MockEntity();
 
 class SaveRestRepository
     extends FkRestApiRepository<MockEntity, MockEntityParser>
-    with FkSaveRestApi<MockEntity, MockEntityParser, MockEntity> {
+    with FkRestCreate<MockEntity, MockEntityParser, MockEntity> {
   const SaveRestRepository({required super.httpClient, required super.parser});
 
   @override

@@ -28,5 +28,5 @@ class UserRegistrationRestRepository
 
   @protected
   @override
-  FkJsonMap createToMap(UserRegistration user) => parser.toMap(user);
+  FkJsonMap createToMap(UserRegistration entity) => parser.toMap(entity);
 }

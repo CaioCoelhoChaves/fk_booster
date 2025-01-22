@@ -6,6 +6,6 @@ import 'package:fk_booster/core/domain/repository/rest/mixins/fk_create.dart';
 
 abstract class UserRegistrationRepository
     extends FkRepository<UserRegistration, UserRegistrationParser>
-    with FkCreate<UserRegistration, UserRegistrationParser, User> {
+    with FkCreate<UserRegistration, User> {
   UserRegistrationRepository({required super.parser});
 }

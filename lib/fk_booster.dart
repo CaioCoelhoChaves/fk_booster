@@ -2,8 +2,9 @@ export 'package:get_it/get_it.dart';
 export 'package:go_router/go_router.dart';
 export 'package:signals/signals_flutter.dart';
 
-export 'core/data/entity_parser/fk_entity_list_parser.dart';
 export 'core/data/entity_parser/fk_entity_parser.dart';
+export 'core/data/entity_parser/fk_from_entity_list_parser.dart';
+export 'core/data/entity_parser/fk_to_entity_list_parser.dart';
 export 'core/data/repository/rest_api/fk_rest_api_repository.dart';
 export 'core/data/repository/rest_api/mixin/fk_rest_create.dart';
 export 'core/data/typedefs.dart';

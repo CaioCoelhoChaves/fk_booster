@@ -1,7 +1,7 @@
 part of 'command.dart';
 
-abstract class State<T> {
-  const State();
+abstract class ViewModelState<T> {
+  const ViewModelState();
 
   Initial<T> toInitial() => Initial._();
 
@@ -12,20 +12,20 @@ abstract class State<T> {
   Error<T> toError({required Object error}) => Error(error: error);
 }
 
-class Initial<T> extends State<T> {
+class Initial<T> extends ViewModelState<T> {
   const Initial._();
 }
 
-class Running<T> extends State<T> {
+class Running<T> extends ViewModelState<T> {
   const Running._();
 }
 
-class Completed<T> extends State<T> {
+class Completed<T> extends ViewModelState<T> {
   const Completed._({required this.data});
   final T data;
 }
 
-class Error<T> extends State<T> {
+class Error<T> extends ViewModelState<T> {
   const Error({required this.error});
   final Object error;
 }

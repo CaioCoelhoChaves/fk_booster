@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'package:signals/signals.dart';
-part 'states.dart';
+part 'view_model_states.dart';
 
-/// Defines a command action that returns a [State] of type [T].
+/// Defines a command action that returns a [ViewModelState] of type [T].
 /// Used by [Command0] for actions without arguments.
 typedef CommandAction0<T> = Future<T> Function();
 
-/// Defines a command action that returns a [State] of type [T].
+/// Defines a command action that returns a [ViewModelState] of type [T].
 /// Takes an argument of type [A].
 /// Used by [Command1] for actions with one argument.
 typedef CommandAction1<T, A> = Future<T> Function(A);
@@ -20,11 +20,11 @@ typedef CommandAction1<T, A> = Future<T> Function(A);
 /// Use [Command0] for actions without arguments.
 /// Use [Command1] for actions with one argument.
 ///
-/// Actions must return a [State] of type [T].
+/// Actions must return a [ViewModelState] of type [T].
 ///
 /// Consume the action result by listening to changes,
 /// then call to [clearResult] when the state is consumed.
-abstract class Command<T> extends Signal<State<T>> {
+abstract class Command<T> extends Signal<ViewModelState<T>> {
   Command() : super(Initial<T>._());
 
   /// Whether the action is running.

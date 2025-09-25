@@ -1,6 +1,6 @@
 name: fk_booster
 description: "A Flutter project that helps you to boost your development"
-version: 0.0.1
+version: 0.0.2-SNAPSHOT
 repository: https://github.com/CaioCoelhoChaves/fk_booster
 
 
@@ -8,14 +8,16 @@ environment:
   sdk: ^3.6.0
 
 dependencies:
-  dio: ^5.7.0
+  dio: ^5.9.0
+  equatable: ^2.0.7
   flutter:
     sdk: flutter
-  get_it: ^8.0.3
-  go_router: ^14.6.2
+  get_it: ^8.2.0
+  go_router: ^16.2.4
   mocktail: ^1.0.4
   signals: ^6.0.2
-  very_good_analysis: ^6.0.0
+  sqflite: ^2.4.2
+  very_good_analysis: ^10.0.0
 
 dev_dependencies:
   flutter_lints: ^4.0.0

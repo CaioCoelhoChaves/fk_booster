@@ -4,5 +4,6 @@ export 'package:signals/signals_flutter.dart';
 
 export 'data/data.dart';
 export 'domain/domain.dart';
+export 'injection/dependency_injection.dart';
 export 'presentation/presentation.dart';
 export 'widgets/widgets.dart';

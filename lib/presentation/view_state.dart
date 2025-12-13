@@ -1,4 +1,4 @@
-import 'package:fk_booster/data/dependency_injection.dart';
+import 'package:fk_booster/injection/dependency_injection.dart';
 import 'package:fk_booster/presentation/view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';

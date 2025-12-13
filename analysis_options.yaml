@@ -4,3 +4,4 @@ linter:
     one_member_abstracts: false
     public_member_api_docs: false
     avoid_positional_boolean_parameters: false
+    prefer_const_constructors: true

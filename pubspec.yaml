@@ -3,9 +3,8 @@ description: "A Flutter project that helps you to boost your development"
 version: 0.0.2-SNAPSHOT
 repository: https://github.com/CaioCoelhoChaves/fk_booster
 
-
 environment:
-  sdk: ^3.6.0
+  sdk: ^3.10.4
 
 dependencies:
   dio: ^5.9.0

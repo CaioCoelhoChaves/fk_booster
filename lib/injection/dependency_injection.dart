@@ -5,7 +5,7 @@ abstract class DependencyInjection {
   const DependencyInjection(this.scopeName);
   final String scopeName;
 
-  void registerDependencies(GetIt i) {
+  Future<void> registerDependencies(GetIt i) async {
     i.pushNewScope(scopeName: scopeName);
     debugPrint('New scope pushed: $scopeName ================================');
   }

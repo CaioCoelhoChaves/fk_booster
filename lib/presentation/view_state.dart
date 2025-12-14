@@ -10,9 +10,9 @@ abstract class ViewState<T extends StatefulWidget, V extends StatelessViewModel>
   TextTheme get textTheme => Theme.of(context).textTheme;
 
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
-    injection?.registerDependencies(_getIt);
+    await injection?.registerDependencies(_getIt);
     initViewModel();
     viewModel.onViewInit();
   }

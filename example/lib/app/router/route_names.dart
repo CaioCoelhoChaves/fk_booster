@@ -1,3 +1,3 @@
-abstract class RoutePaths {
-  static const String home = 'home';
+abstract class RouteNames {
+  static const String users = 'users';
 }

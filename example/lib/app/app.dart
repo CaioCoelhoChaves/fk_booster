@@ -1,3 +1,5 @@
+import 'package:example/app/router/router.dart';
+import 'package:fk_booster/fk_booster.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -5,9 +7,9 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+    return MaterialApp.router(
+      title: 'FK Booster Example',
+      routerConfig: GetIt.I.get<AppRouter>().router,
     );
   }
 }

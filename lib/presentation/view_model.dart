@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:signals/signals.dart';
 
 abstract interface class ViewModel {
@@ -16,7 +15,7 @@ abstract class StatelessViewModel implements ViewModel {
   void onViewInit() {}
 }
 
-class StatefulViewModel<State> extends Signal<State>
+abstract class StatefulViewModel<State> extends Signal<State>
     implements StatelessViewModel {
   StatefulViewModel(super.internalValue);
 
@@ -25,15 +24,6 @@ class StatefulViewModel<State> extends Signal<State>
 
   @override
   void onViewInit() {}
-
-  @override
-  void afterCreate(State val) {
-    super.afterCreate(val);
-    initializeSubscriptions();
-  }
-
-  @protected
-  void initializeSubscriptions() {}
 }
 
 class NoneViewModel extends StatelessViewModel {}

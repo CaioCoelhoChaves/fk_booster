@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fk_booster/injection/dependency_injection.dart';
 import 'package:fk_booster/presentation/view_model.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +12,13 @@ abstract class ViewState<T extends StatefulWidget, V extends StatelessViewModel>
   TextTheme get textTheme => Theme.of(context).textTheme;
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
-    await injection?.registerDependencies(_getIt);
+    unawaited(_initDependencies());
+  }
+
+  Future<void> _initDependencies() async {
+    injection?.registerDependencies(_getIt);
     initViewModel();
     viewModel.onViewInit();
   }

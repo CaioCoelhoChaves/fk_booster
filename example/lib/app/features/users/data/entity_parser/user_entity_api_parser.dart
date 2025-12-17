@@ -9,6 +9,7 @@ class UserEntityApiParser extends UserEntityParser {
       name: map.getString('name'),
       email: map.getString('email'),
       birthday: map.getDate('birthday'),
+      description: map.getString('description'),
       createdAt: map.getDateTime('created_at'),
     );
   }
@@ -18,5 +19,6 @@ class UserEntityApiParser extends UserEntityParser {
     ..add('id', e.id)
     ..add('name', e.name)
     ..add('email', e.email)
+    ..add('description', e.description)
     ..add('birthday', e.birthday.toApi());
 }

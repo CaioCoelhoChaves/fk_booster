@@ -5,8 +5,8 @@ class StartupInjection extends DependencyInjection {
   const StartupInjection() : super('Startup');
 
   @override
-  Future<void> registerDependencies(GetIt i) async {
-    await super.registerDependencies(i);
+  void registerDependencies(GetIt i) {
+    super.registerDependencies(i);
     i.registerLazySingleton(AppRouter.new);
   }
 }

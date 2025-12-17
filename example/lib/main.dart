@@ -4,6 +4,6 @@ import 'package:fk_booster/fk_booster.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {
-  await const StartupInjection().registerDependencies(GetIt.I);
+  const StartupInjection().registerDependencies(GetIt.I);
   runApp(const App());
 }

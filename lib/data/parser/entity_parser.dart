@@ -1,4 +1,3 @@
-
 import 'package:fk_booster/data/typedefs.dart';
 
 abstract class EntityParser<Entity> {

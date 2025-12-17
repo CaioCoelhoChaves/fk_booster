@@ -1,3 +1,4 @@
+import 'package:example/app/pages/create_user/create_user_page.dart';
 import 'package:example/app/pages/users/users_page.dart';
 import 'package:example/app/router/route_names.dart';
 import 'package:example/app/router/route_paths.dart';
@@ -10,9 +11,16 @@ class AppRouter {
     initialLocation: RoutePaths.users,
     routes: <RouteBase>[
       GoRoute(
-        path: RoutePaths.users,
         name: RouteNames.users,
+        path: RoutePaths.users,
         builder: (_, _) => const UsersPage(),
+        routes: [
+          GoRoute(
+            name: RouteNames.createUser,
+            path: RoutePaths.create,
+            builder: (_, _) => const CreateUserPage(),
+          ),
+        ],
       ),
     ],
   );

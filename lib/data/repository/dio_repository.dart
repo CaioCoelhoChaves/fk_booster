@@ -15,7 +15,10 @@ abstract class DioRepository<Entity> extends Repository<Entity> {
     required ToMap<Entity> entityParser,
     required FromMap<TResponse> responseParser,
   }) async {
-    final response = await dio.post<dynamic>(createUrl);
+    final response = await dio.post<dynamic>(
+      createUrl,
+      data: entityParser.toMap(entity),
+    );
     return responseParser.fromMap(response.data as Map<String, dynamic>);
   }
 }

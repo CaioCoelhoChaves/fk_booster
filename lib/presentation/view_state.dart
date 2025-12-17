@@ -14,10 +14,6 @@ abstract class ViewState<T extends StatefulWidget, V extends StatelessViewModel>
   @override
   void initState() {
     super.initState();
-    unawaited(_initDependencies());
-  }
-
-  Future<void> _initDependencies() async {
     injection?.registerDependencies(_getIt);
     initViewModel();
     viewModel.onViewInit();

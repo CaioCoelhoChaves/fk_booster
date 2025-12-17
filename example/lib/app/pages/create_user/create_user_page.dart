@@ -18,37 +18,45 @@ class _CreateUserPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Form(
-        key: viewModel.formKey,
-        child: Column(
-          children: [
-            TextFormField(
-              decoration: const InputDecoration(label: Text('Name')),
-              onChanged: (value) => viewModel.value = form.copyWith(
-                name: value,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Form(
+          key: viewModel.formKey,
+          child: Column(
+            spacing: 15,
+            children: [
+              TextFormField(
+                decoration: const InputDecoration(label: Text('Name')),
+                onChanged: (value) => viewModel.value = form.copyWith(
+                  name: value,
+                ),
               ),
-            ),
-            TextFormField(
-              decoration: const InputDecoration(label: Text('Email')),
-              onChanged: (value) => viewModel.value = form.copyWith(
-                email: value,
+              TextFormField(
+                decoration: const InputDecoration(label: Text('Email')),
+                onChanged: (value) => viewModel.value = form.copyWith(
+                  email: value,
+                ),
               ),
-            ),
-            InputDatePickerFormField(
-              fieldLabelText: 'Birthday',
-              firstDate: DateTime(1900),
-              lastDate: DateTime.now(),
-              onDateSubmitted: (value) => viewModel.value = form.copyWith(
-                birthday: Date.fromDateTime(value),
+              InputDatePickerFormField(
+                fieldLabelText: 'Birthday',
+                firstDate: DateTime(1900),
+                lastDate: DateTime.now(),
+                onDateSubmitted: (value) => viewModel.value = form.copyWith(
+                  birthday: Date.fromDateTime(value),
+                ),
               ),
-            ),
-            TextFormField(
-              decoration: const InputDecoration(label: Text('Description')),
-              onChanged: (value) => viewModel.value = form.copyWith(
-                description: value,
+              TextFormField(
+                decoration: const InputDecoration(label: Text('Description')),
+                onChanged: (value) => viewModel.value = form.copyWith(
+                  description: value,
+                ),
               ),
-            ),
-          ],
+              ElevatedButton(
+                onPressed: () => viewModel.onSavePressed(),
+                child: const Text('Create User'),
+              ),
+            ],
+          ),
         ),
       ),
     );

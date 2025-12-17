@@ -7,6 +7,13 @@ class StartupInjection extends DependencyInjection {
   @override
   void registerDependencies(GetIt i) {
     super.registerDependencies(i);
-    i.registerLazySingleton(AppRouter.new);
+    i
+      ..registerLazySingleton(
+        () => Dio()
+          ..options = BaseOptions(
+            baseUrl: 'http://localhost:8000',
+          ),
+      )
+      ..registerLazySingleton(AppRouter.new);
   }
 }

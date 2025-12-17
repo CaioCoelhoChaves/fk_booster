@@ -1,8 +1,12 @@
 import 'package:fk_booster/domain/entity/date.dart';
 
 extension DateParsers on Date? {
-  String? toApi() =>
-      this != null ? '${this!.year}-${this!.month}-${this!.day}' : null;
+  String? toApi() {
+    if (this == null) return null;
+    final month = this!.month.toString().padLeft(2, '0');
+    final day = this!.day.toString().padLeft(2, '0');
+    return '${this!.year}-$month-$day';
+  }
 }
 
 extension DateTimeParsers on DateTime? {

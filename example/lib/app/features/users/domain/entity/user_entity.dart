@@ -1,4 +1,3 @@
-import 'package:fk_booster/data/data.dart';
 import 'package:fk_booster/domain/domain.dart';
 
 class UserEntity extends Entity {

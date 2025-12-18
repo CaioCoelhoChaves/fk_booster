@@ -54,6 +54,3 @@ class UserEntity extends Entity {
     );
   }
 }
-
-abstract class UserEntityParser extends EntityParser<UserEntity>
-    with ToMap, FromMap {}

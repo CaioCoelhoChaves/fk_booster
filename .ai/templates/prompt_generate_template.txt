@@ -1,5 +1,0 @@
-Baseado no arquivo "promp_tremplate.md" crie um prompt em .ai/prompt com o objetivo:
-
-[Descrever objetivo]
-
-Caso você tenha qualquer dúvida durante a montagem do prompt me pergunte para que eu possa sanalas antes do prompt ser construído.

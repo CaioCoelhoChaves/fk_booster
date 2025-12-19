@@ -13,6 +13,10 @@ class UsersPage extends StatefulWidget {
 }
 
 class _UsersPageState extends ViewState<UsersPage, UsersViewModel> {
+
+  bool hasError = true;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -23,6 +23,7 @@ class _CreateUserPageState
         child: Form(
           key: viewModel.formKey,
           child: Column(
+            crossAxisAlignment: .start,
             spacing: 15,
             children: [
               TextFormField(
@@ -52,7 +53,7 @@ class _CreateUserPageState
                 ),
               ),
               ElevatedButton(
-                onPressed: () => viewModel.onSavePressed(),
+                onPressed: viewModel.onSavePressed,
                 child: const Text('Create User'),
               ),
             ],

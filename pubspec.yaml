@@ -1,6 +1,6 @@
 name: fk_booster
 description: "A Flutter project that helps you to boost your development"
-version: 0.0.2
+version: 1.0.0-alpha
 repository: https://github.com/CaioCoelhoChaves/fk_booster
 
 environment:

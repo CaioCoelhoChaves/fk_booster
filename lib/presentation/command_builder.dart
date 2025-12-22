@@ -65,7 +65,6 @@ class CommandBuilder<T> extends StatelessWidget {
 
       if (builder != null) return builder!(command.value);
 
-      print(command.value);
       return const SizedBox.shrink();
     },
     dependencies: [command],

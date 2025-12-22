@@ -328,6 +328,8 @@ pages/users/
 
 A página é responsável **apenas por renderização**. Herda de `ViewState` que gerencia o ciclo de vida e injeção.
 
+#### Opção 1: Usando CommandBuilder (Recomendado)
+
 ```dart
 import 'package:example/app/features/users/domain/entity/user_entity.dart';
 import 'package:example/app/pages/users/users_injection.dart';
@@ -352,40 +354,55 @@ class _UsersPageState extends ViewState<UsersPage, UsersViewModel> {
         onPressed: () => context.goNamed(RouteNames.createUser),
         child: const Icon(Icons.add),
       ),
-      body: Watch(
-        dependencies: [viewModel.getAll],
-        (_) {
-          final state = viewModel.getAll.value;
-
-          // Use os estados do Command para renderizar
-          if (state is Running) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (state is Error) {
-            return Center(
-              child: Text('Error: ${(state as Error).error}'),
-            );
-          }
-
-          if (state is Completed<List<UserEntity>>) {
-            final users = state.data;
-            return ListView.builder(
-              itemCount: users.length,
-              itemBuilder: (context, index) {
-                final user = users[index];
-                return ListTile(
-                  title: Text(user.name ?? 'Unknown'),
-                  subtitle: Text(user.email ?? 'No email'),
-                );
-              },
-            );
-          }
-
-          return const SizedBox.shrink();
-        },
+      body: CommandBuilder(
+        command: viewModel.getAll,
+        loadingBuilder: (_) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        completedBuilder: (state) => Visibility(
+          visible: state.data.isNotEmpty,
+          replacement: const Center(
+            child: Text('No users found'),
+          ),
+          child: ListView.builder(
+            itemCount: state.data.length,
+            itemBuilder: (context, index) {
+              final user = state.data[index];
+              return ListTile(
+                title: Text(user.name ?? 'Unknown'),
+                subtitle: Text(user.email ?? 'No email'),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () => _deleteUser(user),
+                ),
+              );
+            },
+          ),
+        ),
+        errorBuilder: (state) => Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, size: 48, color: Colors.red),
+              const SizedBox(height: 16),
+              Text(
+                'Error: ${state.error}',
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 5),
+              ElevatedButton(
+                onPressed: viewModel.getAll.execute,
+                child: const Text('Retry'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
+  }
+
+  void _deleteUser(UserEntity user) {
+    // TODO(users): Implement delete functionality
   }
 
   @override
@@ -393,12 +410,66 @@ class _UsersPageState extends ViewState<UsersPage, UsersViewModel> {
 }
 ```
 
-**Pontos-chave:**
-- Estende `ViewState<Page, ViewModel>`
-- Acessa o ViewModel através de `viewModel`
-- Usa `Watch` (de signals) para reatividade
-- Retorna a injeção através de `injection` getter
-- Renderiza baseado nos estados do Command
+#### Opção 2: Usando Watch (Alternativa)
+
+```dart
+// ...importações...
+
+body: Watch(
+  dependencies: [viewModel.getAll],
+  (_) {
+    final state = viewModel.getAll.value;
+
+    // Use os estados do Command para renderizar
+    if (state is Running) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (state is Error) {
+      return Center(
+        child: Text('Error: ${(state as Error).error}'),
+      );
+    }
+
+    if (state is Completed<List<UserEntity>>) {
+      final users = state.data;
+      return ListView.builder(
+        itemCount: users.length,
+        itemBuilder: (context, index) {
+          final user = users[index];
+          return ListTile(
+            title: Text(user.name ?? 'Unknown'),
+            subtitle: Text(user.email ?? 'No email'),
+          );
+        },
+      );
+    }
+
+    return const SizedBox.shrink();
+  },
+),
+```
+
+**Diferenças entre CommandBuilder e Watch:**
+- `CommandBuilder`: Mais limpo e legível, builders específicos para cada estado (recomendado)
+- `Watch`: Mais flexível, permite lógica customizada entre estados
+
+| Aspecto | CommandBuilder | Watch |
+|--------|----------------|-------|
+| **Legibilidade** | Excelente - código declarativo | Boa - requer pattern matching |
+| **Builders Específicos** | Sim - um para cada estado | Não - genérico |
+| **Flexibilidade** | Média - estados pré-definidos | Alta - lógica customizada |
+| **Recomendado para** | Maioria dos casos | Lógica complexa entre estados |
+
+**Quando usar CommandBuilder:**
+- UI simples com estados bem definidos (Loading, Erro, Sucesso)
+- Cada estado tem uma visualização clara
+- Você quer código mais legível e manutenível
+
+**Quando usar Watch:**
+- Lógica complexa envolvendo múltiplos estados
+- Você precisa acessar o estado diretamente
+- Requer transformações de dados antes de renderizar
 
 ### 2. **ViewModel (users_view_model.dart)**
 
@@ -513,7 +584,54 @@ class UsersInjection extends DependencyInjection {
 
 ---
 
-## 🔄 Padrão Command
+## 🎨 Componentes de Apresentação
+
+### CommandBuilder
+
+O `CommandBuilder` é um widget que simplifica a renderização condicionada baseada no estado de um `Command`.
+
+```dart
+/// Signature do CommandBuilder
+CommandBuilder<T>({
+  required Command<T> command,
+  Widget Function(ViewModelState<T> state)? builder,
+  Widget Function(Initial<T> state)? initialStateBuilder,
+  Widget Function(Running<T> state)? loadingBuilder,
+  Widget Function(Completed<T> state)? completedBuilder,
+  Widget Function(Error<T> state)? errorBuilder,
+})
+```
+
+**Características:**
+- Observa automaticamente mudanças no estado do Command
+- Oferece builders específicos para cada estado
+- Se um builder específico não for fornecido, tenta usar o `builder` genérico
+- Se nenhum builder for fornecido, exibe um `SizedBox.shrink()`
+- Evita repetição de lógica de pattern matching manual
+
+**Exemplo de Uso:**
+```dart
+CommandBuilder<List<UserEntity>>(
+  command: viewModel.getAll,
+  loadingBuilder: (_) => const Center(
+    child: CircularProgressIndicator(),
+  ),
+  completedBuilder: (state) {
+    final users = state.data;
+    return ListView.builder(
+      itemCount: users.length,
+      itemBuilder: (context, index) => ListTile(
+        title: Text(users[index].name ?? ''),
+      ),
+    );
+  },
+  errorBuilder: (state) => Center(
+    child: Text('Error: ${state.error}'),
+  ),
+)
+```
+
+---
 
 O padrão Command encapsula ações executáveis com gerenciamento de estado automático (Running, Completed, Error).
 

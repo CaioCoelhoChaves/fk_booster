@@ -3,6 +3,7 @@ AI Agent Bootstrap Instructions
 Read-first directive
 - Before acting on this repository (or any repo that has this folder copied), load and apply all conventions documented in:
   - `memory_bank/PROJECT_STRUCTURE.md`
+  - `memory_bank/ENTITIES.md`
   - `memory_bank/SCAFFOLD_TEMPLATES.md`
 
 Goals for the agent

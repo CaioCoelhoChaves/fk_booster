@@ -12,6 +12,7 @@ How to use
 Contents
 - `AI_INSTRUCTIONS.md`: A short instruction for AI agents to load and honor these conventions.
 - `PROJECT_STRUCTURE.md`: The expected folder structure and naming conventions at app root, features, and pages.
+- `ENTITIES.md`: Complete guide for creating and using Entities and EntityParsers in the domain and data layers.
 - `SCAFFOLD_TEMPLATES.md`: Copy-ready templates and checklists for adding a new feature and a new page.
 
 Copy to other projects

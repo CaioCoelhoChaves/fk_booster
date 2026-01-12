@@ -11,13 +11,39 @@ Folders
 
 Domain entity (example outline)
 ```dart
-// lib/app/features/<feature_name>/domain/entity/<entity_name>.dart
-class <EntityName> {
-  // ...fields...
-  const <EntityName>({ /* ... */ });
-  // ...equality, copy, etc.
+// lib/app/features/<feature_name>/domain/entity/<entity_name>_entity.dart
+import 'package:fk_booster/domain/domain.dart';
+
+class <EntityName>Entity extends Entity {
+  const <EntityName>Entity({
+    required this.id,
+    required this.name,
+    // Add other fields...
+  });
+
+  const <EntityName>Entity.empty()
+    : id = null,
+      name = null;
+
+  final String? id;
+  final String? name;
+  // Add other fields...
+
+  @override
+  List<Object?> get props => [id, name];
+
+  <EntityName>Entity copyWith({
+    String? id,
+    String? name,
+  }) {
+    return <EntityName>Entity(
+      id: id ?? this.id,
+      name: name ?? this.name,
+    );
+  }
 }
 ```
+**See `ENTITIES.md` for complete Entity conventions and best practices.**
 
 Domain repository interface (example outline)
 ```dart
@@ -29,40 +55,60 @@ abstract class <FeatureName>Repository {
 }
 ```
 
-Parser (example outline)
+Entity Parser interface
 ```dart
-// lib/app/features/<feature_name>/data/entity_parser/<entity_name>_parser.dart
-import '../../domain/entity/<entity_name>.dart';
+// lib/app/features/<feature_name>/domain/entity/<entity_name>_entity_parser.dart
+import 'package:fk_booster/data/parser/entity_parser.dart';
+import '<entity_name>_entity.dart';
 
-class <EntityName>Parser {
-  <EntityName> fromJson(Map<String, dynamic> json) {
-    // ...map fields...
-    return <EntityName>(/* ... */);
-  }
+abstract class <EntityName>EntityParser extends EntityParser<<EntityName>Entity>
+    with ToMap, FromMap, GetId<<EntityName>Entity, String> {}
+```
 
-  Map<String, dynamic> toJson(<EntityName> entity) {
-    // ...map fields...
-    return {/* ... */};
-  }
+Parser implementation (example outline)
+```dart
+// lib/app/features/<feature_name>/data/entity_parser/<entity_name>_entity_api_parser.dart
+import 'package:fk_booster/fk_booster.dart';
+import '../../domain/entity/<entity_name>_entity.dart';
+import '../../domain/entity/<entity_name>_entity_parser.dart';
+
+class <EntityName>EntityApiParser extends <EntityName>EntityParser {
+  @override
+  <EntityName>Entity fromMap(JsonMap map) => <EntityName>Entity(
+    id: map.getString('id'),
+    name: map.getString('name'),
+    // Map other fields using map.getString, map.getInt, etc.
+  );
+
+  @override
+  JsonMap toMap(<EntityName>Entity e) => JsonMap()
+    ..add('id', e.id)
+    ..add('name', e.name);
+    // Add other fields
+
+  @override
+  String getId(<EntityName>Entity entity) => entity.id ?? '';
 }
 ```
+**See `ENTITIES.md` for EntityParser details and available JsonMap helpers.**
 
 Repository implementation (example outline)
 ```dart
 // lib/app/features/<feature_name>/data/repository/<feature_name>_repository_impl.dart
 import '../../domain/repository/<feature_name>_repository.dart';
-import '../entity_parser/<entity_name>_parser.dart';
+import '../../domain/entity/<entity_name>_entity_parser.dart';
+import '../../domain/entity/<entity_name>_entity.dart';
 
 class <FeatureName>RepositoryImpl implements <FeatureName>Repository {
-  final <EntityName>Parser _parser;
+  final <EntityName>EntityParser _parser;
   // Inject IO clients (e.g., http, db) here
 
   <FeatureName>RepositoryImpl(this._parser);
 
   // @override
-  // Future<List<<EntityName>>> fetchAll() async {
+  // Future<List<<EntityName>Entity>> fetchAll() async {
   //   final raw = await _client.get(...);
-  //   return (raw as List).map((j) => _parser.fromJson(j)).toList();
+  //   return (raw as List).map((j) => _parser.fromMap(j)).toList();
   // }
 }
 ```
@@ -77,11 +123,11 @@ Injection (example outline)
 import 'package:fk_booster/fk_booster.dart';
 import '../../features/<feature_name>/domain/repository/<feature_name>_repository.dart';
 import '../../features/<feature_name>/data/repository/<feature_name>_repository_impl.dart';
-import '../../features/<feature_name>/data/entity_parser/<entity_name>_parser.dart';
+import '../../features/<feature_name>/data/entity_parser/<entity_name>_entity_api_parser.dart';
 import '<page_name>_view_model.dart';
 
 <FeatureName>Repository make<FeatureName>Repository() {
-  return <FeatureName>RepositoryImpl(<EntityName>Parser());
+  return <FeatureName>RepositoryImpl(<EntityName>EntityApiParser());
 }
 
 <PageName>ViewModel make<PageName>ViewModel() {

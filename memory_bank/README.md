@@ -12,7 +12,8 @@ How to use
 Contents
 - `AI_INSTRUCTIONS.md`: A short instruction for AI agents to load and honor these conventions.
 - `PROJECT_STRUCTURE.md`: The expected folder structure and naming conventions at app root, features, and pages.
-- `ENTITIES.md`: Complete guide for creating and using Entities and EntityParsers in the domain and data layers.
+- `ENTITIES.md`: Complete guide for creating and using Entities (domain layer only).
+- `ENTITY_PARSERS.md`: Complete guide for designing and implementing EntityParsers (contracts in domain, implementations in data).
 - `SCAFFOLD_TEMPLATES.md`: Copy-ready templates and checklists for adding a new feature and a new page.
 
 Copy to other projects
@@ -22,4 +23,3 @@ Copy to other projects
 Notes
 - These docs assume a Flutter project using fk_booster for MVVM/ViewState/Command patterns and DI.
 - If a consuming project doesn’t expose full source, these files still describe how the code should be organized.
-

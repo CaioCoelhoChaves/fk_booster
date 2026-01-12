@@ -16,7 +16,7 @@ Entities are **framework-agnostic**, immutable, and belong to the **domain layer
 
 All entities extend the base `Entity` class from `fk_booster`:
 
-```dart
+```text
 import 'package:fk_booster/domain/domain.dart';
 
 class MyEntity extends Entity {
@@ -72,7 +72,7 @@ Examples:
 - The field is guaranteed to exist in the response
 
 **Example:**
-```dart
+```text
 class UserEntity extends Entity {
   const UserEntity({
     required this.id,           // nullable: API may not return
@@ -96,7 +96,7 @@ class UserEntity extends Entity {
 Every entity should have:
 
 #### a) Main constructor (required parameters)
-```dart
+```text
 const UserEntity({
   required this.id,
   required this.name,
@@ -106,7 +106,7 @@ const UserEntity({
 
 #### b) Empty constructor (for initialization)
 Useful for creating empty instances:
-```dart
+```text
 const UserEntity.empty()
   : id = null,
     name = null,
@@ -120,7 +120,7 @@ const UserEntity.empty()
 
 ### 6. Equatable Props
 Always override the `props` getter to include all fields:
-```dart
+```text
 @override
 List<Object?> get props => [
   id,
@@ -134,7 +134,7 @@ This enables automatic equality comparison (two entities with same field values 
 
 ### 7. CopyWith Method
 Provide a `copyWith` method for creating modified copies:
-```dart
+```text
 UserEntity copyWith({
   String? id,
   String? name,
@@ -150,7 +150,7 @@ UserEntity copyWith({
 
 ## Complete Entity Example
 
-```dart
+```text
 import 'package:fk_booster/domain/domain.dart';
 
 class UserEntity extends Entity {
@@ -208,78 +208,7 @@ class UserEntity extends Entity {
 }
 ```
 
-## Entity Parser
-
-Each entity requires a companion **EntityParser** for serialization/deserialization. The parser is placed in the **data layer**, NOT the domain layer.
-
-### Parser Location
-```
-lib/app/features/<feature_name>/data/entity_parser/<entity_name>_entity_parser.dart
-```
-
-### Parser Structure
-```dart
-import 'package:fk_booster/data/parser/entity_parser.dart';
-import 'package:example/app/features/users/domain/entity/user_entity.dart';
-
-abstract class UserEntityParser extends EntityParser<UserEntity>
-    with ToMap, FromMap, GetId<UserEntity, String> {}
-```
-
-### Parser Mixins
-
-The `EntityParser` can be mixed with:
-
-- **`FromMap`**: Converts `Map<String, dynamic>` (JSON) to Entity
-  - Implement: `Entity fromMap(JsonMap map)`
-  
-- **`ToMap`**: Converts Entity to `Map<String, dynamic>` (JSON)
-  - Implement: `JsonMap toMap(Entity entity)`
-  
-- **`GetId<Entity, ID>`**: Extracts the ID from an Entity
-  - Implement: `ID getId(Entity entity)`
-  - Generic `ID` type should match your entity's ID field type (e.g., `String`, `int`)
-
-### Parser Implementation Example
-
-fk_booster provides extension methods on `JsonMap` to safely parse data:
-
-```dart
-class UserEntityApiParser extends UserEntityParser {
-  @override
-  UserEntity fromMap(JsonMap map) => UserEntity(
-    id: map.getString('id'),
-    name: map.getString('name'),
-    email: map.getString('email'),
-    birthday: map.getDate('birthday'),
-    description: map.getString('description'),
-    createdAt: map.getDateTime('created_at'),
-  );
-
-  @override
-  JsonMap toMap(UserEntity e) => JsonMap()
-    ..add('id', e.id)
-    ..add('name', e.name)
-    ..add('email', e.email)
-    ..add('birthday', e.birthday?.toApi())
-    ..add('description', e.description)
-    ..add('created_at', e.createdAt?.toIso8601String());
-
-  @override
-  String getId(UserEntity entity) => entity.id ?? '';
-}
-```
-
-**Helper methods available on JsonMap:**
-- `getString(key)` - Safely get String value
-- `getInt(key)` - Safely get int value
-- `getDouble(key)` - Safely get double value
-- `getBool(key)` - Safely get bool value
-- `getDate(key)` - Parse Date from API format
-- `getDateTime(key)` - Parse DateTime from API format
-- `add(key, value)` - Add key-value pair (fluent API)
-
-These helpers handle null values gracefully and return `null` if the key doesn't exist or has an invalid type.
+> For serialization/deserialization and parser contracts, see `memory_bank/ENTITY_PARSERS.md`.
 
 ## Key Principles
 
@@ -305,14 +234,12 @@ These helpers handle null values gracefully and return `null` if the key doesn't
 - [ ] Add `.empty()` named constructor
 - [ ] Override `props` getter with all fields
 - [ ] Implement `copyWith` method
-- [ ] Create corresponding EntityParser in `data/entity_parser/`
-- [ ] Implement parser mixins (`FromMap`, `ToMap`, `GetId`)
-- [ ] Register parser in DI if needed
+- [ ] Create corresponding parser contract if needed; implementations belong to the data layer (see `ENTITY_PARSERS.md`)
 
 ## Common Patterns
 
 ### Entity with Lists
-```dart
+```text
 class OrderEntity extends Entity {
   const OrderEntity({
     required this.id,
@@ -328,7 +255,7 @@ class OrderEntity extends Entity {
 ```
 
 ### Entity with Enums
-```dart
+```text
 enum UserRole { admin, user, guest }
 
 class UserEntity extends Entity {
@@ -346,7 +273,7 @@ class UserEntity extends Entity {
 ```
 
 ### Entity with Custom Types
-```dart
+```text
 class ProductEntity extends Entity {
   const ProductEntity({
     required this.id,
@@ -364,8 +291,7 @@ class ProductEntity extends Entity {
 ```
 
 **Note on fk_booster Date type:**
-`Date` is a simple value object provided by fk_booster that represents a calendar date without time information:
-```dart
+```text
 class Date {
   const Date(this.year, [this.day = 1, this.month = 1]);
   Date.fromDateTime(DateTime dateTime);
@@ -383,7 +309,7 @@ Entities are the foundation of your domain model. They are:
 - Pure Dart classes
 - Immutable and value-based
 - Located in the domain layer
-- Paired with EntityParsers in the data layer
+- Paired with EntityParsers in the data layer via contracts in domain (see `ENTITY_PARSERS.md`)
 - Used throughout your application to represent business data
 
 When in doubt, remember: **Entities describe WHAT the data is, not HOW it's stored or retrieved.**

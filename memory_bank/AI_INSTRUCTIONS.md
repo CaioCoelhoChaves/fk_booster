@@ -4,6 +4,7 @@ Read-first directive
 - Before acting on this repository (or any repo that has this folder copied), load and apply all conventions documented in:
   - `memory_bank/PROJECT_STRUCTURE.md`
   - `memory_bank/ENTITIES.md`
+  - `memory_bank/ENTITY_PARSERS.md`
   - `memory_bank/SCAFFOLD_TEMPLATES.md`
 
 Goals for the agent
@@ -22,4 +23,3 @@ Behavioral rules
 
 Scope of application
 - These instructions are copy-and-paste friendly. If you’re in a different project that uses fk_booster, assume these conventions by default.
-

@@ -10,7 +10,7 @@ Folders
 - `lib/app/features/<feature_name>/data/repository/`
 
 Domain entity (example outline)
-```dart
+```text
 // lib/app/features/<feature_name>/domain/entity/<entity_name>_entity.dart
 import 'package:fk_booster/domain/domain.dart';
 
@@ -43,10 +43,10 @@ class <EntityName>Entity extends Entity {
   }
 }
 ```
-**See `ENTITIES.md` for complete Entity conventions and best practices.**
+See `ENTITIES.md` for complete Entity conventions and best practices.
 
 Domain repository interface (example outline)
-```dart
+```text
 // lib/app/features/<feature_name>/domain/repository/<feature_name>_repository.dart
 abstract class <FeatureName>Repository {
   // Define methods returning domain types
@@ -55,18 +55,19 @@ abstract class <FeatureName>Repository {
 }
 ```
 
-Entity Parser interface
-```dart
+Entity Parser contract (domain)
+```text
 // lib/app/features/<feature_name>/domain/entity/<entity_name>_entity_parser.dart
 import 'package:fk_booster/data/parser/entity_parser.dart';
 import '<entity_name>_entity.dart';
 
+// Include ONLY the mixins you actually need for your use-cases
 abstract class <EntityName>EntityParser extends EntityParser<<EntityName>Entity>
-    with ToMap, FromMap, GetId<<EntityName>Entity, String> {}
+    with FromMap, ToMap, GetId<<EntityName>Entity, String> {}
 ```
 
-Parser implementation (example outline)
-```dart
+Parser implementation for API (data)
+```text
 // lib/app/features/<feature_name>/data/entity_parser/<entity_name>_entity_api_parser.dart
 import 'package:fk_booster/fk_booster.dart';
 import '../../domain/entity/<entity_name>_entity.dart';
@@ -77,23 +78,47 @@ class <EntityName>EntityApiParser extends <EntityName>EntityParser {
   <EntityName>Entity fromMap(JsonMap map) => <EntityName>Entity(
     id: map.getString('id'),
     name: map.getString('name'),
-    // Map other fields using map.getString, map.getInt, etc.
+    // Map other fields using map.getString, map.getInt, map.getBool, map.getDate, map.getDateTime, etc.
   );
 
   @override
   JsonMap toMap(<EntityName>Entity e) => JsonMap()
     ..add('id', e.id)
     ..add('name', e.name);
-    // Add other fields
+    // Add only the fields you actually need to send/store; use e.field?.toApi() for nullable dates
 
   @override
   String getId(<EntityName>Entity entity) => entity.id ?? '';
 }
 ```
-**See `ENTITIES.md` for EntityParser details and available JsonMap helpers.**
+
+Parser implementation for DB (data) — optional variant
+```text
+// lib/app/features/<feature_name>/data/entity_parser/<entity_name>_entity_db_parser.dart
+import 'package:fk_booster/fk_booster.dart';
+import '../../domain/entity/<entity_name>_entity.dart';
+import '../../domain/entity/<entity_name>_entity_parser.dart';
+
+class <EntityName>EntityDbParser extends <EntityName>EntityParser {
+  @override
+  <EntityName>Entity fromMap(JsonMap map) => <EntityName>Entity(
+    id: map.getString('id'),
+    name: map.getString('name'),
+    // DB-specific key mapping if needed
+  );
+
+  @override
+  JsonMap toMap(<EntityName>Entity e) => JsonMap()
+    ..add('id', e.id)
+    ..add('name', e.name);
+
+  @override
+  String getId(<EntityName>Entity entity) => entity.id ?? '';
+}
+```
 
 Repository implementation (example outline)
-```dart
+```text
 // lib/app/features/<feature_name>/data/repository/<feature_name>_repository_impl.dart
 import '../../domain/repository/<feature_name>_repository.dart';
 import '../../domain/entity/<entity_name>_entity_parser.dart';
@@ -113,12 +138,48 @@ class <FeatureName>RepositoryImpl implements <FeatureName>Repository {
 }
 ```
 
+Parser tests (example outline)
+```text
+// test/app/features/<feature_name>/data/entity_parser/<entity_name>_entity_api_parser_test.dart
+import 'package:flutter_test/flutter_test.dart';
+import 'package:fk_booster/fk_booster.dart';
+import 'package:<your_app>/app/features/<feature_name>/domain/entity/<entity_name>_entity.dart';
+import 'package:<your_app>/app/features/<feature_name>/data/entity_parser/<entity_name>_entity_api_parser.dart';
+
+void main() {
+  group('<EntityName>EntityApiParser', () {
+    final parser = <EntityName>EntityApiParser();
+
+    test('fromMap parses happy path', () {
+      final json = JsonMap()
+        ..add('id', '1')
+        ..add('name', 'Alice');
+      final e = parser.fromMap(json);
+      expect(e.id, '1');
+      expect(e.name, 'Alice');
+    });
+
+    test('toMap writes only required keys', () {
+      final e = <EntityName>Entity(id: '1', name: 'Alice');
+      final json = parser.toMap(e);
+      expect(json['id'], '1');
+      expect(json['name'], 'Alice');
+    });
+
+    test('getId returns empty when null', () {
+      const e = <EntityName>Entity.empty();
+      expect(parser.getId(e), isEmpty);
+    });
+  });
+}
+```
+
 New Page: `<page_name>`
 Folders
 - `lib/app/pages/<page_name>/`
 
 Injection (example outline)
-```dart
+```text
 // lib/app/pages/<page_name>/<page_name>_injection.dart
 import 'package:fk_booster/fk_booster.dart';
 import '../../features/<feature_name>/domain/repository/<feature_name>_repository.dart';
@@ -136,7 +197,7 @@ import '<page_name>_view_model.dart';
 ```
 
 ViewModel (example outline)
-```dart
+```text
 // lib/app/pages/<page_name>/<page_name>_view_model.dart
 import 'package:fk_booster/fk_booster.dart';
 import '../../features/<feature_name>/domain/repository/<feature_name>_repository.dart';
@@ -156,7 +217,7 @@ class <PageName>ViewModel extends ViewModelBase {
 ```
 
 Page widget (example outline)
-```dart
+```text
 // lib/app/pages/<page_name>/<page_name>_page.dart
 import 'package:flutter/material.dart';
 import 'package:fk_booster/fk_booster.dart';
@@ -191,3 +252,6 @@ Checklist (copy for PRs)
 - DI: global bindings in `startup_injection.dart` if shared, or local page injection if isolated.
 - Naming: snake case for files/folders; entity names singular; repository interfaces in domain, impls in data.
 
+See also
+- `ENTITY_PARSERS.md` for parser-specific guidance (mixins, mapping, multiple sources, testing tips).
+- `ENTITIES.md` for domain Entity conventions.

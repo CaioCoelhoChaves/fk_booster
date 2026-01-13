@@ -19,38 +19,63 @@ This document shows how all memory bank files relate to each other and when to u
     │   (Overview)     │      │  (Quick start)   │
     └────────┬─────────┘      └──────────────────┘
              │
-      ┌──────┴──────┬──────────┬──────────┬──────────┐
-      │             │          │          │          │
-      ▼             ▼          ▼          ▼          ▼
-┌──────────┐  ┌──────────┐ ┌────────┐ ┌────────┐ ┌────────┐
-│DEPENDENCY│  │VIEWSTATE │ │ENTITIES│ │PARSERS │ │REPOSIT-│
-│INJECTION │  │   .md    │ │  .md   │ │  .md   │ │ORIES.md│
-│   .md    │  │          │ │        │ │        │ │        │
-└────┬─────┘  └────┬─────┘ └────────┘ └────────┘ └────────┘
-     │             │
-     └──────┬──────┘
-            │
-    (Work together for 
-     page architecture)
+      ┌──────┴──────┬──────────┬──────────┬──────────┬─────────────┐
+      │             │          │          │          │             │
+      ▼             ▼          ▼          ▼          ▼             ▼
+┌──────────┐  ┌──────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌──────────┐
+│DEPENDENCY│  │VIEWSTATE │ │COMMANDS│ │ENTITIES│ │PARSERS │ │REPOSIT- │
+│INJECTION │  │   .md    │ │  .md   │ │  .md   │ │  .md   │ │ORIES.md  │
+│   .md    │  │          │ │        │ │        │ │        │ │          │
+└────┬─────┘  └────┬─────┘ └────┬───┘ └────────┘ └────────┘ └──────────┘
+     │             │            │
+     │             └────────┬───┘
+     │                      │
+     └──────────┬───────────┘
+                │
+                ▼
+        ┌──────────────────────┐
+        │VIEWMODEL_STATES.md   │
+        │ (State definitions)  │
+        └──────────┬───────────┘
+                   │
+                   ▼
+        ┌──────────────────────┐
+        │VIEWMODEL_INTEGRATION │
+        │     .md              │
+        │(Integration guide)   │
+        └──────────────────────┘
 ```
 
 ---
 
 ## Documentation Hierarchy
 
-### 1. Entry Point
-**`AI_INSTRUCTIONS.md`** - Start here
+### 1. Entry Point & Visual Overview
+**`AI_INSTRUCTIONS.md`** - Bootstrap for agents
 - Tells AI agents which files to read
 - Defines behavioral rules
 - Sets scope of application
 
-### 2. Architectural Overview
-**`PROJECT_STRUCTURE.md`** - High-level structure
+**`ARCHITECTURE_OVERVIEW.md`** - Visual guide (START HERE!)
+- Complete architecture diagram with all layers
+- Data flow examples (step-by-step flow)
+- Layer breakdown with responsibilities
+- File organization
+- State management flow
+- When to use each component
+
+**`PROJECT_STRUCTURE.md`** - Folder structure conventions
 - App root structure (`lib/app/`)
 - Features structure (domain/data layers)
 - Pages structure (UI layer)
-- Dependency direction rules
 - Naming conventions
+
+### 2. Quick Start
+**`SCAFFOLD_TEMPLATES.md`** - Copy-paste templates
+- New feature scaffold
+- New page scaffold
+- Complete working examples
+- **Cross-references**: All other docs
 
 ### 3. Core Systems (Read these for implementation)
 
@@ -67,13 +92,55 @@ This document shows how all memory bank files relate to each other and when to u
   - ViewModel types (Stateless/Stateful)
   - Lifecycle integration
   - DI integration
-  - **Cross-references**: DEPENDENCY_INJECTION.md
+  - **Cross-references**: DEPENDENCY_INJECTION.md, COMMANDS.md
+
+- **`COMMANDS.md`** ⭐ Core system
+  - Command<T> abstract base
+  - Command0<T> and Command1<T, A>
+  - ViewModelState types (Initial, Running, Completed, Error)
+  - CommandBuilder widget for reactive UI
+  - Command execution and state management
+  - **Cross-references**: VIEWSTATE.md, VIEWMODEL_STATES.md
+
+- **`VIEWMODEL_STATES.md`** (Reference)
+  - Initial<T> state
+  - Running<T> state
+  - Completed<T> state
+  - Error<T> state
+  - State transition methods
+  - Practical examples for each state
+  - **Cross-references**: COMMANDS.md
 
 #### Business Layer (Features)
 - **`ENTITIES.md`**
   - Domain entities (pure business objects)
   - Entity conventions
   - Immutability patterns
+  - Value objects
+  - **Cross-references**: ENTITY_PARSERS.md
+
+- **`ENTITY_PARSERS.md`**
+  - Parser interfaces (domain)
+  - Parser implementations (data)
+  - JSON/API parsing
+  - Type conversions
+  - **Cross-references**: ENTITIES.md, REPOSITORIES.md
+
+- **`REPOSITORIES.md`**
+  - Repository interfaces (domain)
+  - Repository implementations (data)
+  - Data source integration
+  - Error handling
+  - **Cross-references**: ENTITY_PARSERS.md, DEPENDENCY_INJECTION.md
+
+### 4. Integration Guide (Advanced)
+
+**`VIEWMODEL_INTEGRATION.md`** - How it all works together
+- Complete lifecycle flows (page open → load → close)
+- Integration examples combining DI, ViewState, ViewModel, Commands
+- Best practices and patterns
+- Testing strategies
+- **Cross-references**: All core system docs (DI, ViewState, Commands, ViewModelStates)
   - Value objects
   - **Cross-references**: ENTITY_PARSERS.md
 
@@ -102,26 +169,35 @@ This document shows how all memory bank files relate to each other and when to u
 
 ## When to Use Each File
 
-### Creating a New Page
-1. **Read first**: `VIEWSTATE.md` + `DEPENDENCY_INJECTION.md`
-2. **Then use**: `SCAFFOLD_TEMPLATES.md` (Page section)
-3. **Reference**: `PROJECT_STRUCTURE.md` (for folder placement)
+### Creating a New Page (Complete Flow)
+1. **Quick start**: `SCAFFOLD_TEMPLATES.md` (Page section) for copy-ready code
+2. **Understanding**: `VIEWMODEL_INTEGRATION.md` to see how everything connects
+3. **Details**: Reference specific docs as needed:
+   - `DEPENDENCY_INJECTION.md` for DI setup
+   - `VIEWSTATE.md` for ViewState lifecycle
+   - `COMMANDS.md` for Command patterns
 
-**Why this order**: You need to understand ViewState and DI before creating pages, as they work together.
+**Why this order**: See working code first, then understand the integration, then dive into details.
 
-### Creating a New Feature
-1. **Read first**: `ENTITIES.md` → `ENTITY_PARSERS.md` → `REPOSITORIES.md`
-2. **Then use**: `SCAFFOLD_TEMPLATES.md` (Feature section)
-3. **Reference**: `PROJECT_STRUCTURE.md` (for folder structure)
+### Creating a New Feature (Complete Flow)
+1. **Quick start**: `SCAFFOLD_TEMPLATES.md` (Feature section) for copy-ready code
+2. **Details**: Read in sequence:
+   - `ENTITIES.md` for entity design
+   - `ENTITY_PARSERS.md` for parser implementation
+   - `REPOSITORIES.md` for repository patterns
+3. **Integration**: Use `VIEWMODEL_INTEGRATION.md` to see how repositories flow to UI
 
-**Why this order**: Features follow a bottom-up approach (Entities → Parsers → Repositories).
-
-### Understanding the Full Architecture
-1. `AI_INSTRUCTIONS.md` (overview)
-2. `PROJECT_STRUCTURE.md` (structure)
-3. `DEPENDENCY_INJECTION.md` (DI system)
-4. `VIEWSTATE.md` (UI integration)
-5. `ENTITIES.md` → `ENTITY_PARSERS.md` → `REPOSITORIES.md` (business logic)
+### Understanding the Full Architecture (Sequential Reading)
+1. `AI_INSTRUCTIONS.md` - Start here (behavioral rules)
+2. `PROJECT_STRUCTURE.md` - App organization
+3. `DEPENDENCY_INJECTION.md` - DI system foundations
+4. `VIEWSTATE.md` - Widget lifecycle integration
+5. `COMMANDS.md` - Async operations and state
+6. `VIEWMODEL_INTEGRATION.md` - How DI, ViewState, Commands connect
+7. `ENTITIES.md` - Domain layer design
+8. `ENTITY_PARSERS.md` - Data transformation
+9. `REPOSITORIES.md` - Data access layer
+10. `SCAFFOLD_TEMPLATES.md` - Reference templates for everything
 
 ---
 
@@ -138,13 +214,31 @@ This document shows how all memory bank files relate to each other and when to u
 **Depends on**: 
 - DEPENDENCY_INJECTION.md (uses DI system)
 **Referenced by**:
+- COMMANDS.md (works with Commands)
+- VIEWMODEL_INTEGRATION.md (integration guide)
 - SCAFFOLD_TEMPLATES.md (Page templates)
+
+### COMMANDS.md
+**Depends on**:
+- VIEWMODEL_STATES.md (uses ViewModelState)
+**Referenced by**:
+- VIEWMODEL_STATES.md (detailed state guide)
+- VIEWMODEL_INTEGRATION.md (integration guide)
+- SCAFFOLD_TEMPLATES.md (command examples)
+
+### VIEWMODEL_STATES.md
+**Depends on**:
+- COMMANDS.md (explains states used by commands)
+**Referenced by**:
+- VIEWMODEL_INTEGRATION.md (state transitions in lifecycle)
+- SCAFFOLD_TEMPLATES.md (state handling examples)
 
 ### ENTITIES.md
 **Depends on**: Nothing (pure domain)
 **Referenced by**:
 - ENTITY_PARSERS.md (parses to/from entities)
 - REPOSITORIES.md (returns entities)
+- VIEWMODEL_INTEGRATION.md (entities in data flow)
 - SCAFFOLD_TEMPLATES.md (entity templates)
 
 ### ENTITY_PARSERS.md
@@ -152,6 +246,7 @@ This document shows how all memory bank files relate to each other and when to u
 - ENTITIES.md (parses entities)
 **Referenced by**:
 - REPOSITORIES.md (repositories use parsers)
+- VIEWMODEL_INTEGRATION.md (parsers in data flow)
 - SCAFFOLD_TEMPLATES.md (parser templates)
 
 ### REPOSITORIES.md
@@ -160,7 +255,17 @@ This document shows how all memory bank files relate to each other and when to u
 - ENTITY_PARSERS.md (uses parsers)
 - DEPENDENCY_INJECTION.md (registered in DI)
 **Referenced by**:
+- VIEWMODEL_INTEGRATION.md (shows repository to UI flow)
 - SCAFFOLD_TEMPLATES.md (repository templates)
+
+### VIEWMODEL_INTEGRATION.md
+**Depends on**:
+- DEPENDENCY_INJECTION.md (explains DI in integration)
+- VIEWSTATE.md (explains ViewState in integration)
+- COMMANDS.md (explains Commands in integration)
+- REPOSITORIES.md (shows how repos connect to UI)
+**Referenced by**:
+- None (integration/reference guide)
 
 ### SCAFFOLD_TEMPLATES.md
 **Depends on**: All other files (uses all patterns)
@@ -180,6 +285,12 @@ DEPENDENCY_INJECTION.md ⭐ Critical
     ↓
 VIEWSTATE.md ⭐ Critical
     ↓
+VIEWSTATE.md ⭐ Critical
+    ↓
+COMMANDS.md ⭐ Critical
+    ↓
+VIEWMODEL_INTEGRATION.md (See how it all connects)
+    ↓
 SCAFFOLD_TEMPLATES.md (Page section)
 ```
 
@@ -197,6 +308,8 @@ REPOSITORIES.md
     ↓
 DEPENDENCY_INJECTION.md (for registration)
     ↓
+VIEWMODEL_INTEGRATION.md (See how repos connect to UI)
+    ↓
 SCAFFOLD_TEMPLATES.md (Feature section)
 ```
 
@@ -206,16 +319,17 @@ AI_INSTRUCTIONS.md
     ↓
 PROJECT_STRUCTURE.md
     ↓
-┌─────────────────┬─────────────────┐
-│                 │                 │
-│  UI Flow        │  Business Flow  │
-│                 │                 │
-│  DI → ViewState │  Entities →     │
-│                 │  Parsers →      │
-│                 │  Repositories   │
-└─────────────────┴─────────────────┘
+┌─────────────────┬──────────────────────┐
+│   UI Side       │   Business Logic     │
+│                 │   Side               │
+│ DI → ViewState  │ Entities →           │
+│ → Commands      │ Parsers →            │
+│                 │ Repositories         │
+└─────────────────┴──────────────────────┘
     ↓
-SCAFFOLD_TEMPLATES.md
+VIEWMODEL_INTEGRATION.md (See complete flow)
+    ↓
+SCAFFOLD_TEMPLATES.md (Copy-paste everything)
 ```
 
 ---
@@ -226,8 +340,9 @@ SCAFFOLD_TEMPLATES.md
 |------|-----------|---------------|
 | AI_INSTRUCTIONS.md | All files | None |
 | PROJECT_STRUCTURE.md | None | All files |
-| DEPENDENCY_INJECTION.md | None | VIEWSTATE, REPOSITORIES, SCAFFOLD_TEMPLATES |
-| VIEWSTATE.md | DEPENDENCY_INJECTION | SCAFFOLD_TEMPLATES |
+| DEPENDENCY_INJECTION.md | None | VIEWSTATE, COMMANDS, REPOSITORIES, SCAFFOLD_TEMPLATES |
+| VIEWSTATE.md | DEPENDENCY_INJECTION, COMMANDS | COMMANDS, SCAFFOLD_TEMPLATES |
+| COMMANDS.md | VIEWSTATE | SCAFFOLD_TEMPLATES |
 | ENTITIES.md | None | ENTITY_PARSERS, REPOSITORIES, SCAFFOLD_TEMPLATES |
 | ENTITY_PARSERS.md | ENTITIES | REPOSITORIES, SCAFFOLD_TEMPLATES |
 | REPOSITORIES.md | ENTITIES, ENTITY_PARSERS, DEPENDENCY_INJECTION | SCAFFOLD_TEMPLATES |
@@ -257,13 +372,14 @@ SCAFFOLD_TEMPLATES.md
 
 ## Key Integrations
 
-### DI + ViewState (Pages)
-These two systems work together for page architecture:
+### DI + ViewState + Commands (Pages)
+These three systems work together for complete page architecture:
 - **DI**: Manages dependency lifecycle (create/dispose)
 - **ViewState**: Integrates DI with Flutter widget lifecycle
-- **Result**: Automatic dependency management per page
+- **Commands**: Execute async operations and emit state updates
+- **Result**: Automatic dependency management, lifecycle handling, and reactive UI state
 
-**Read together**: `DEPENDENCY_INJECTION.md` + `VIEWSTATE.md`
+**Read together**: `DEPENDENCY_INJECTION.md` + `VIEWSTATE.md` + `COMMANDS.md`
 
 ### Entities + Parsers + Repositories (Features)
 These three layers work together for business logic:
@@ -272,7 +388,20 @@ These three layers work together for business logic:
 - **Repositories**: Coordinate data access (data → domain interface)
 - **Result**: Clean architecture with testable layers
 
-**Read in sequence**: `ENTITIES.md` → `ENTITY_PARSERS.md` → `REPOSITORIES.md`
+**Read together**: `ENTITIES.md` + `ENTITY_PARSERS.md` + `REPOSITORIES.md`
+
+### Complete Flow: From Repository to UI
+```
+Repository.getAll()
+    ↓ (returns Future<Entity>)
+Command0<Entity>(repository.getAll)
+    ↓ (emits ViewModelState)
+CommandBuilder<Entity> widget
+    ↓ (renders based on state)
+UI (Loading → Result/Error)
+```
+
+See `COMMANDS.md` for detailed flow diagrams.
 
 ---
 

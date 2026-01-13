@@ -14,6 +14,7 @@ Contents
 - `PROJECT_STRUCTURE.md`: The expected folder structure and naming conventions at app root, features, and pages.
 - `ENTITIES.md`: Complete guide for creating and using Entities (domain layer only).
 - `ENTITY_PARSERS.md`: Complete guide for designing and implementing EntityParsers (contracts in domain, implementations in data).
+- `REPOSITORIES.md`: Complete guide for designing and implementing Repositories (contracts in domain, implementations in data).
 - `SCAFFOLD_TEMPLATES.md`: Copy-ready templates and checklists for adding a new feature and a new page.
 
 Copy to other projects

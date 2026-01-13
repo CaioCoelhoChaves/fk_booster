@@ -48,12 +48,17 @@ See `ENTITIES.md` for complete Entity conventions and best practices.
 Domain repository interface (example outline)
 ```text
 // lib/app/features/<feature_name>/domain/repository/<feature_name>_repository.dart
-abstract class <FeatureName>Repository {
-  // Define methods returning domain types
-  // Future<List<<EntityName>>> fetchAll();
-  // Future<void> create(<EntityName> entity);
-}
+import 'package:example/app/features/<feature_name>/domain/entity/<entity_name>_entity.dart';
+import 'package:fk_booster/domain/domain.dart';
+
+abstract class <FeatureName>Repository extends Repository<<EntityName>Entity>
+    with
+        Create<<EntityName>Entity, <EntityName>Entity>,
+        GetAll<<EntityName>Entity>,
+        GetById<<EntityName>Entity, String>,
+        Delete<<EntityName>Entity, <EntityName>Entity> {}
 ```
+See `REPOSITORIES.md` for complete Repository conventions and patterns.
 
 Entity Parser contract (domain)
 ```text
@@ -119,24 +124,47 @@ class <EntityName>EntityDbParser extends <EntityName>EntityParser {
 
 Repository implementation (example outline)
 ```text
-// lib/app/features/<feature_name>/data/repository/<feature_name>_repository_impl.dart
-import '../../domain/repository/<feature_name>_repository.dart';
-import '../../domain/entity/<entity_name>_entity_parser.dart';
-import '../../domain/entity/<entity_name>_entity.dart';
+// lib/app/features/<feature_name>/data/repository/<feature_name>_api_repository.dart
+import 'package:example/app/features/<feature_name>/domain/entity/<entity_name>_entity.dart';
+import 'package:example/app/features/<feature_name>/domain/entity/<entity_name>_entity_parser.dart';
+import 'package:example/app/features/<feature_name>/domain/repository/<feature_name>_repository.dart';
+import 'package:fk_booster/data/data.dart';
 
-class <FeatureName>RepositoryImpl implements <FeatureName>Repository {
-  final <EntityName>EntityParser _parser;
-  // Inject IO clients (e.g., http, db) here
+class <FeatureName>ApiRepository extends DioRepository<<EntityName>Entity>
+    implements <FeatureName>Repository {
+  const <FeatureName>ApiRepository({
+    required this.parser,
+    required super.dio,
+  }) : super(baseUrl: '/<feature_endpoint>');
 
-  <FeatureName>RepositoryImpl(this._parser);
+  final <EntityName>EntityParser parser;
 
-  // @override
-  // Future<List<<EntityName>Entity>> fetchAll() async {
-  //   final raw = await _client.get(...);
-  //   return (raw as List).map((j) => _parser.fromMap(j)).toList();
-  // }
+  @override
+  Future<<EntityName>Entity> create(<EntityName>Entity entity) => rawCreate(
+    entity: entity,
+    entityParser: parser,
+    responseParser: parser,
+  );
+
+  @override
+  Future<<EntityName>Entity> delete(<EntityName>Entity entity) => rawDelete(
+    entity: entity,
+    idParser: parser,
+    responseParser: parser,
+  );
+
+  @override
+  Future<List<<EntityName>Entity>> getAll() => rawGetAll(entityParser: parser);
+
+  @override
+  Future<<EntityName>Entity> getById(String id) => rawGetById(
+    id: id,
+    idParser: parser,
+    entityParser: parser,
+  );
 }
 ```
+See `REPOSITORIES.md` for complete Repository implementation guide.
 
 Parser tests (example outline)
 ```text
@@ -253,5 +281,6 @@ Checklist (copy for PRs)
 - Naming: snake case for files/folders; entity names singular; repository interfaces in domain, impls in data.
 
 See also
-- `ENTITY_PARSERS.md` for parser-specific guidance (mixins, mapping, multiple sources, testing tips).
 - `ENTITIES.md` for domain Entity conventions.
+- `ENTITY_PARSERS.md` for parser-specific guidance (mixins, mapping, multiple sources, testing tips).
+- `REPOSITORIES.md` for repository patterns (mixins, DioRepository, custom methods, testing tips).

@@ -5,6 +5,7 @@ Read-first directive
   - `memory_bank/PROJECT_STRUCTURE.md`
   - `memory_bank/ENTITIES.md`
   - `memory_bank/ENTITY_PARSERS.md`
+  - `memory_bank/REPOSITORIES.md`
   - `memory_bank/SCAFFOLD_TEMPLATES.md`
 
 Goals for the agent

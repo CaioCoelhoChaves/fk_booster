@@ -2,6 +2,15 @@ fk_booster Scaffold Templates
 
 Use these copy-ready templates to add features and pages in projects that consume fk_booster. Replace placeholders with your names.
 
+**Reference Documentation**:
+- See `ENTITIES.md` for Entity conventions
+- See `ENTITY_PARSERS.md` for Parser conventions
+- See `REPOSITORIES.md` for Repository conventions
+- See `DEPENDENCY_INJECTION.md` for DI system details
+- See `VIEWSTATE.md` for ViewState and ViewModel patterns
+
+---
+
 New Feature: `<feature_name>`
 Folders
 - `lib/app/features/<feature_name>/domain/entity/`

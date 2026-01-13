@@ -14,6 +14,7 @@ Goals for the agent
 - When creating or editing code:
   - Prefer adding interfaces in `domain/` and implementations in `data/`.
   - Bind dependencies in `startup_injection.dart` (global) or `<page_name>_injection.dart` (local).
+  - Use ViewState (not State) for page widgets to enable automatic DI and ViewModel integration.
   - Use fk_booster ViewModel/ViewState/Command patterns for UI interactions.
 
 Behavioral rules

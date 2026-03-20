@@ -5,7 +5,16 @@ import 'package:fk_booster/presentation/view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-abstract class ViewState<T extends StatefulWidget, V extends StatelessViewModel>
+/// This is the class that substitutes the [State] of a [StatefulWidget] in a
+/// to able the application to work with the architecture defined by the
+/// package.
+///
+/// The [ViewModel] type defined in the second class parameter it is the one
+/// that is going to be automatically get by the [ViewState], so, if you are
+/// using it remember to register it correctly.
+///
+/// Add your page injections in the [injection] method by overriding it.
+abstract class ViewState<T extends StatefulWidget, V extends ViewModel>
     extends State<T> {
   late final V viewModel;
   final GetIt _getIt = GetIt.instance;

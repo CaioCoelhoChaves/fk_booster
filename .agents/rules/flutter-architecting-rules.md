@@ -1,10 +1,10 @@
 ---
 trigger: model_decision
-description: When needing to understand the app expected architecture
+description: When needing to understand the expected architecture, creating a new feature, a new page, a new repository, a new entity, a new entity parser and undestending when this all interact with each other.
 ---
 
 ---
-name: "flutter-architecting-apps"
+name: "flutter-architecting-rules"
 description: "Architects a Flutter application using the project's custom layered approach (UI/Presentation, Domain/Logic, Data). Use when structuring a new project or refactoring for scalability."
 
 # Architecting Flutter Applications

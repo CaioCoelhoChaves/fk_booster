@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:fk_booster/presentation/view_model.dart';
 import 'package:signals/signals.dart';
 part 'view_model_states.dart';
 

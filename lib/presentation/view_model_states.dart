@@ -1,5 +1,7 @@
 part of 'command.dart';
 
+/// A abstract class to represent the state of a [Command] or [ViewModel].
+///
 abstract class ViewModelState<T> {
   const ViewModelState();
 

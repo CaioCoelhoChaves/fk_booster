@@ -4,11 +4,12 @@ description: When creating accessibility Widgets and Pages
 ---
 
 ---
-name: vgv-accessibility
+name:flutter-acessibility-rules
 description: Flutter accessibility auditing and remediation with WCAG 2.1 level selection (A, AA, AAA) across mobile, desktop, and web platforms. Use when building, auditing, or reviewing widgets for screen reader support, touch targets, focus management, color contrast, text scaling, or motion sensitivity. Begins by asking the WCAG conformance level and target platform(s) before applying level-appropriate, platform-aware criteria.
 argument-hint: "[wcag-level] [platform]"
 allowed-tools: Read,Glob,Grep
 ---
+
 # Accessibility
 
 Flutter accessibility auditing and remediation across WCAG 2.1 conformance levels A, AA, and AAA — semantics, touch targets, focus management, color contrast, text scaling, and motion sensitivity across mobile, desktop, and web platforms.
@@ -110,7 +111,7 @@ Apply exactly the fixes the user selects. After applying fixes, confirm: "Fixed 
 
 Use this table during Phase 3 to determine which criteria apply at the selected level. Level AA includes all Level A criteria. Level AAA includes all Level A and AA criteria.
 
-### Level A — Core Criteria
+### Level A
 
 | WCAG ID | Criterion | Flutter Check |
 | --- | --- | --- |
@@ -131,7 +132,7 @@ Use this table during Phase 3 to determine which criteria apply at the selected 
 | 4.1.2 | Name, Role, Value | `Semantics(label:, button: true)`, `Tooltip`; state exposed via `checked`, `selected`, `enabled` flags |
 | 4.1.3 | Status Messages | `Semantics(liveRegion: true)`, `SemanticsService.announce()` for async status |
 
-### Level AA — Additional Criteria (includes all Level A)
+### Level AA
 
 | WCAG ID | Criterion | Flutter Check |
 | --- | --- | --- |
@@ -154,7 +155,7 @@ Use this table during Phase 3 to determine which criteria apply at the selected 
 | 3.3.3 | Error Suggestion | When input error is detected, correction is suggested if possible |
 | 3.3.4 | Error Prevention | Submissions with legal/financial data are reversible or confirmable |
 
-### Level AAA — Additional Criteria (includes all Level A and AA)
+### Level AAA
 
 | WCAG ID | Criterion | Flutter Check |
 | --- | --- | --- |

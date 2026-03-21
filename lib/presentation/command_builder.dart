@@ -69,4 +69,4 @@ class CommandBuilder<T> extends StatelessWidget {
     },
     dependencies: [command],
   );
-}
+}

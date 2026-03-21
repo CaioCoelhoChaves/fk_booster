@@ -1,0 +1,116 @@
+{
+  "@@locale": "en",
+  "appTitle": "fk_booster Example",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "productsTitle": "Products",
+  "@productsTitle": {
+    "description": "Title for the products list page"
+  },
+  "newProduct": "New Product",
+  "@newProduct": {
+    "description": "Title for the new product form"
+  },
+  "editProduct": "Edit Product",
+  "@editProduct": {
+    "description": "Title for the edit product form"
+  },
+  "name": "Name",
+  "@name": {
+    "description": "Label for the name field"
+  },
+  "description": "Description",
+  "@description": {
+    "description": "Label for the description field"
+  },
+  "price": "Price",
+  "@price": {
+    "description": "Label for the price field"
+  },
+  "quantity": "Quantity",
+  "@quantity": {
+    "description": "Label for the quantity field"
+  },
+  "active": "Active",
+  "@active": {
+    "description": "Label for the active toggle"
+  },
+  "inactive": "Inactive",
+  "@inactive": {
+    "description": "Label when product is inactive"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Label for the save button"
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Label for the delete button"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Label for the cancel button"
+  },
+  "errorLoadingProducts": "Failed to load products.",
+  "@errorLoadingProducts": {
+    "description": "Error message when product list fails to load"
+  },
+  "errorSavingProduct": "Failed to save product.",
+  "@errorSavingProduct": {
+    "description": "Error message when saving a product fails"
+  },
+  "errorDeletingProduct": "Failed to delete product.",
+  "@errorDeletingProduct": {
+    "description": "Error message when deleting a product fails"
+  },
+  "productDeleted": "Product deleted successfully.",
+  "@productDeleted": {
+    "description": "Success message after deleting a product"
+  },
+  "productSaved": "Product saved successfully.",
+  "@productSaved": {
+    "description": "Success message after saving a product"
+  },
+  "emptyProducts": "No products found.",
+  "@emptyProducts": {
+    "description": "Message shown when the product list is empty"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Label for the retry button"
+  },
+  "deleteConfirmTitle": "Delete Product",
+  "@deleteConfirmTitle": {
+    "description": "Title for the delete confirmation dialog"
+  },
+  "deleteConfirmMessage": "Are you sure you want to delete this product?",
+  "@deleteConfirmMessage": {
+    "description": "Message in the delete confirmation dialog"
+  },
+  "nameRequired": "Name is required.",
+  "@nameRequired": {
+    "description": "Validation message for empty name field"
+  },
+  "priceRequired": "Price is required.",
+  "@priceRequired": {
+    "description": "Validation message for empty price field"
+  },
+  "priceInvalid": "Please enter a valid price.",
+  "@priceInvalid": {
+    "description": "Validation message for invalid price"
+  },
+  "quantityInvalid": "Please enter a valid quantity.",
+  "@quantityInvalid": {
+    "description": "Validation message for invalid quantity"
+  },
+  "productCount": "{count, plural, =0{No products} =1{1 product} other{{count} products}}",
+  "@productCount": {
+    "description": "Label showing the number of products",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+}

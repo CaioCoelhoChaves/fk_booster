@@ -7,6 +7,16 @@ extension JsonMapParsers on JsonMap {
     return value as String?;
   }
 
+  int? getInt(String key) {
+    final value = this[key];
+    return value as int?;
+  }
+
+  bool getBool(String key, {bool defaultValue = false}) {
+    final value = this[key];
+    return value as bool? ?? defaultValue;
+  }
+
   Date? getDate(String key) {
     final value = getString(key);
     if (value == null) return null;

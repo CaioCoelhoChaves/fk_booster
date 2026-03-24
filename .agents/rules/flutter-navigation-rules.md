@@ -1,6 +1,6 @@
 ---
 trigger: model_decision
-description: When needing to add a navigation code or creating a new route
+description: When there is need to generate a new route or router to the application OR is in need to understand how to navigate between the app pages.
 ---
 
 ---

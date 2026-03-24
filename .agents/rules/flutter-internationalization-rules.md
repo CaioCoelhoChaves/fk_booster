@@ -1,6 +1,6 @@
 ---
 trigger: model_decision
-description: Writing texts that will be displayed for users.
+description: When writing ANY text that will be showed to the user.
 ---
 
 ---

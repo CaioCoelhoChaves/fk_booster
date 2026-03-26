@@ -4,7 +4,16 @@ import 'package:fk_booster/presentation/view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-abstract class ViewState<T extends StatefulWidget, V extends StatelessViewModel>
+/// This is the class that substitutes the [State] of a [StatefulWidget] in a
+/// to able the application to work with the architecture defined by the
+/// package.
+///
+/// The [ViewModel] type defined in the second class parameter it is the one
+/// that is going to be automatically get by the [ViewState], so, if you are
+/// using it remember to register it correctly.
+///
+/// Add your page injections in the [injection] method by overriding it.
+abstract class ViewState<T extends StatefulWidget, V extends ViewModel>
     extends State<T> {
   /// The view model of the view.
   late final V viewModel;
@@ -24,15 +33,11 @@ abstract class ViewState<T extends StatefulWidget, V extends StatelessViewModel>
     viewModel.onViewInit();
   }
 
-  /// Initialize the view model of the view by searching in the application
-  /// injections.
-  ///
   void initViewModel() => viewModel = _getIt.get<V>();
 
   @override
   Widget build(BuildContext context);
 
-  /// Method called when the view is no longer in the route stack.
   @override
   Future<void> dispose() async {
     super.dispose();
@@ -40,8 +45,5 @@ abstract class ViewState<T extends StatefulWidget, V extends StatelessViewModel>
     await injection?.disposeDependencies(_getIt);
   }
 
-  /// The dependency injection instance for this view.
-  /// if the class doesn't have a dependency injection instance
-  /// you can just don't override this method in your view.
   DependencyInjection? get injection => null;
 }

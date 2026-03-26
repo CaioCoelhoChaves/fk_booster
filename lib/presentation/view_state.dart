@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:fk_booster/injection/dependency_injection.dart';
 import 'package:fk_booster/presentation/view_model.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +15,16 @@ import 'package:get_it/get_it.dart';
 /// Add your page injections in the [injection] method by overriding it.
 abstract class ViewState<T extends StatefulWidget, V extends ViewModel>
     extends State<T> {
+  /// The view model of the view.
   late final V viewModel;
+
+  /// The get it instance of the application.
   final GetIt _getIt = GetIt.instance;
+
+  /// The text theme of the current theme.
   TextTheme get textTheme => Theme.of(context).textTheme;
 
+  /// Method called when the view is created.
   @override
   void initState() {
     super.initState();

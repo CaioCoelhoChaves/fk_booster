@@ -1,5 +1,7 @@
 import 'package:fk_booster/data/data.dart';
 
+/// A abstract class to represent a repository.
+///
 abstract class Repository<Entity> {
   const Repository();
 
